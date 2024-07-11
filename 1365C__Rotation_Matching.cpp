@@ -16,6 +16,7 @@ void solve(){
         bloc[b[i]] = i;
     }
 
+
     for(int i=0;i<n;i++){
         int diff = aloc[b[i]] - i;
         if(diff < 0)
