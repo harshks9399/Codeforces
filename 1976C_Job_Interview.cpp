@@ -15,33 +15,71 @@ void solve(){
         cin>>test[i];
     }
 
-    
-
-    for(int i=0;i<=n+m;i++){
-        lli prog_score = 0, test_score = 0;
-        int prog_count = 0, test_count = 0;
-        for(int j=0;j<=n+m;j++){
-            if(j==i) continue;
-            if(prog[j] > test[j]){
-                if(prog_count < n){
-                    prog_count++;
-                    prog_score+=prog[j];
-                }else{
-                    test_score+=test[j];
-                    test_count++;
-                }
+    int bad_candidate = -1, bad_type=-1;
+    lli prog_count = 0, test_count = 0, tot_Score = 0;
+    vector<lli> sol(n+m+1);
+    for(int i=0;i<n+m;i++){
+        if(prog[i] > test[i]){
+            if(prog_count < n){
+                tot_Score += prog[i];
+                prog_count ++;
             }else{
-                if(test_count < m){
-                    test_score+=test[j];
-                    test_count++;
-                }else{
-                    prog_count++;
-                    prog_score+=prog[j];
+                tot_Score += test[i];
+                if(bad_candidate==-1){
+                    bad_candidate = i;
+                    bad_type = 0;
                 }
+                test_count ++;
+            }
+        }else{
+            if(test_count < m){
+                tot_Score += test[i];
+                test_count++;
+            }else{
+                tot_Score += prog[i];
+                if(bad_candidate==-1){
+                    bad_candidate = i;
+                    bad_type = 1;
+                }
+                prog_count++;
             }
         }
-        cout<<test_score + prog_score<<" ";
     }
+    if(bad_candidate==-1){
+        bad_candidate = m+n;
+        bad_type = prog[m+n] > test[m+n] ? 0:1;
+    }
+
+
+
+    sol[m+n] = tot_Score;
+    lli add;
+    if(bad_type==0)
+        add = test[n+m];
+    else if(bad_type==1)
+        add = prog[n+m];
+    else if (prog_count == n)
+        add = test[n+m];
+    else
+        add = prog[n+m];
+    for(int candi = m+n-1;candi>=0;candi--){
+        if(bad_candidate <= candi){
+            lli rem ;
+            if(bad_type==0) rem = test[candi];
+            else rem = prog[candi];
+            sol[candi] = tot_Score + add - rem;
+        }else{
+            lli rem,add2=0 ;
+            rem = max(prog[candi], test[candi]);
+            // add2 = max(prog[bad_candidate], test[bad_candidate]); ->wrong
+            int candi_type = (prog[candi] > test[candi]) ? 1:0;
+            if(candi_type != bad_type)
+                add2 = max(prog[bad_candidate], test[bad_candidate]) - min(prog[bad_candidate], test[bad_candidate]);
+            sol[candi] = tot_Score - rem + add + add2 ;
+        }
+    }
+    for(auto it:sol)
+        cout<<it<<" ";
     cout<<"\n";
     return;
 
