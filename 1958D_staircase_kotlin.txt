@@ -1,0 +1,59 @@
+import java.util.*
+
+fun effortCalc(step: List<Int>): Long {
+    val n = step.size
+    return if (n % 2 == 0) {
+        var sum: Long = 0
+        for (it in step) sum += it
+        2 * sum
+    } else {
+        var maxi = -1
+        var pos = -1
+        for (i in step.indices) {
+            if (i % 2 == 1) continue
+            if (maxi < step[i]) {
+                maxi = step[i]
+                pos = i
+            }
+        }
+        var sum: Long = 0
+        for (i in step.indices) {
+            if (i == pos) continue
+            sum += step[i]
+        }
+        sum = 2 * sum + step[pos]
+        sum
+    }
+}
+
+fun solve(scanner: Scanner) {
+    val n = scanner.nextInt()
+    val a = LongArray(n + 2)
+    a[0] = 0
+    for (i in 1..n) {
+        a[i] = scanner.nextLong()
+    }
+    a[n + 1] = 0
+
+    var index = 0
+    val step = mutableListOf<Int>()
+    var totalEffort: Long = 0
+    while (index < a.size) {
+        if (a[index] == 0L) {
+            if (step.isNotEmpty()) totalEffort += effortCalc(step)
+            step.clear()
+        } else {
+            step.add(a[index].toInt())
+        }
+        index++
+    }
+    println(totalEffort)
+}
+
+fun main() {
+    val scanner = Scanner(System.`in`)
+    val t = scanner.nextInt()
+    repeat(t) {
+        solve(scanner)
+    }
+}
