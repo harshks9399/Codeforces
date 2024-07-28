@@ -1,2 +1,2 @@
-c_with_stdio(false);
-    // cin.tie(NULL);
+e::sync_with_stdio(false);
+    cin.tie(N
