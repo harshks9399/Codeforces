@@ -34,13 +34,22 @@ class fenwick_tree{
         return ans;
     }
 
+
+    void check(){
+
+        for(int i = 1; i<=n_ ; i++) 
+            cout<<v[i]<<" ";
+        cout<<"\n";
+    }
+
 };
 
-
-
-
 void solve(){
-    
+    vector<int>v = {2,1,1,3,2,3,4,5,6,7,8,9};
+    fenwick_tree ft(v.size());
+    for(int i=0;i<v.size();i++)
+        ft.update(i+1, v[i]);
+    ft.check();
 }
 
 int main()
