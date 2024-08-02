@@ -3,61 +3,93 @@
 using namespace std;
 #define lli long long int
 
-void solve(){
-    int n,m;
-    cin>>n>>m;
-
-    
-
-    vector<pair<int,int>>monsters, boundry;
-    vector<vector<int>>v(n,vector<int>(m)), dist1(n,vector<int>(m,-1)), dist(n,vector<int>(m,-1));
-    int ax,ay,bx,by;
-
-    for(int i=0;i<n;i++){
-        for(int j=0;j<m;j++){
-            char x;
-            cin>>x;
-            if(x=='A') {ax = i; ay = j; }
-            if(x=='B') {bx = i; by = j; }
-            if(x=='#') {v[i][j] = 1;}
-            if(x=='M') { monsters.push_back({i,j});}
-
-
-            if(x=='.' && (i==0 || i==n-1 || j==0 || j==m-1)) boundry.push_back({i,j});
-        }
-    }
-    vector<int>row = {1,0,-1,0};
-    vector<int>col = {0,1,0,-1};
+void bfs(pair<int,int>it , vector<vector<int>>&dist, vector<vector<int>>&grid){
     queue<pair<int,int>>q;
-    
-
-
-
-    q.push(make_pair(bx,by));
+    int n = dist.size(), m = dist[0].size();
+    q.push(it);
+    dist[it.first][it.second] = 0;
+    int row[4] = {1,0,-1,0};
+    int col[4] = {0,1,0,-1};
     while(q.size()!=0){
         auto top = q.front();
         q.pop();
         int x = top.first, y = top.second;
-        cout<<"HERE\t"<<x<<" "<<y<<"\n";
-        // if(dist[x][y]!=-1) continue;
+
         for(int i=0;i<4;i++){
-            int r = x + row[i];
-            int c = y + col[i];
-            if(r<0 || c<0 || r>=n || c>=m) continue;
-            if(v[r][c]==1 || dist[r][c]!=-1) continue;
-            dist[r][c] = dist[x][y] + 1;
-            q.push({r,c});
+            int r = x+ row[i];
+            int c = y+ col[i];
+
+            if(r<0 || c<0 || r>=n  || c>=m) continue;
+            if( grid[r][c]==1) continue;
+            if(dist[r][c] > dist[x][y] + 1){
+                dist[r][c] = dist[x][y] + 1;
+                q.push({r,c});
+            }
+        }
+    }
+}
+
+void bfs1(int ax, int ay , vector<vector<int>>&dist, vector<vector<int>>&grid, vector<vector<char>>&par){
+    queue<pair<int,int>>q;
+    int n = dist.size(), m = dist[0].size();
+    q.push({ax,ay});
+    dist[ax][ay] = 0;
+    int row[4] = {1,0,-1,0};
+    int col[4] = {0,1,0,-1};
+    char dir[4] = {'D', 'R' , 'U' , 'L' };
+    while(q.size()!=0){
+        auto top = q.front();
+        q.pop();
+        int x = top.first, y = top.second;
+
+        for(int i=0;i<4;i++){
+            int r = x+ row[i];
+            int c = y+ col[i];
+
+            if(r<0 || c<0 || r>=n  || c>=m) continue;
+            if( grid[r][c]==1) continue;
+            if(dist[r][c] > dist[x][y] + 1){
+                dist[r][c] = dist[x][y] + 1;
+                q.push({r,c});
+                par[r][c] = dir[i];
+            }
+        }
+    }
+}
+
+void solve(){
+    int n,m;
+    cin>>n>>m;
+
+    vector<pair<int,int>>monsters;
+    vector<vector<int>>grid(n,vector<int>(m,1e9));
+    vector<vector<int>>distm(n,vector<int>(m,1e9));
+    vector<vector<int>>dista(n,vector<int>(m,1e9));
+    vector<vector<char>>par(n,vector<char>(m));
+    int ax,ay;
+
+    for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){
+            char c;
+            cin>>c;
+            if(c=='M') monsters.push_back({i,j});
+            if(c=='A') {ax=i;ay=j;}
+            if(c=='#') grid[i][j] = 1;
         }
     }
 
-    if(dist[ax][ay]==-1){
-        cout<<"NO\n";
-        return;
+    for(auto it:monsters){
+        vector<vector<int>>dist(n,vector<int>(m,1e9));
+        bfs(it, dist, grid);
+
+        for(int i=0;i<n;i++)
+            for(int j=0;j<m;j++){
+                distm[i][j] = min(distm[i][j], dist[i][j]);
+            }
     }
-    cout<<"YES\n";
-    return;
+    bfs1(ax,ay,dista,grid,par);
 
-
+    pair<>
 }
 
 int main()
