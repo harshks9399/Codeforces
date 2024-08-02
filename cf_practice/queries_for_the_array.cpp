@@ -2,62 +2,82 @@
 // We have template for fenwick tree
 #include <bits/stdc++.h>
 using namespace std;
-#define lli long long int
+#define ll long long
 
 void solve(){
     string s;
     cin>>s;
-    int n = s.size();
-
-    stack<char>st;
+    ll n = s.size();
+    ll cnt = 0;
+    stack<pair<ll, ll>>st;
+    pair<ll, ll> temp;
     for(char c:s){
         if(c=='+'){
-            if(st.size()==0) st.push('S');
-            else st.push('-');
+            cnt++;
         }
 
-        if(c=='-') st.pop();
-
+        if(c=='-') {
+            if (st.size() > 0)
+            {
+                temp = st.top();
+                if (temp.second == 0)
+                {
+                    if (temp.first == cnt)
+                        st.pop();
+                }
+                else
+                {
+                    if (temp.first == cnt)
+                    {
+                        st.pop();
+                        temp.first--;
+                        st.push(temp);
+                    }
+                }
+            }
+            cnt--;
+        }
         if(c=='1'){
-            int count = 0;
-            if(!st.empty() && st.top()=='-'){
-                count++;
-                st.pop();
+            if (st.size() > 0)
+            {
+                temp = st.top();
+                if(temp.second == 0)
+                {
+                    cout << "NO\n";
+                    return;
+                }
+                else
+                {
+                    st.pop();
+                    temp.first = cnt;
+                    st.push(temp);
+                }
             }
-            if(!st.empty() && st.top()=='N'){
-                cout<<"NO\n";
-                return;
-            }
-            while(count--)
-                st.push('S');            
+            else
+                st.push({cnt, 1});
         }
 
         if(c=='0'){
-            int count = 0;
-            if(st.size()<=1){
-                cout<<"NO\n";
+            if (cnt < 2)
+            {
+                cout << "NO\n";
                 return;
             }
-
-            if(!st.empty() && st.top()=='-'){
-                count++;
-                st.pop();
+            if (st.size() > 0)
+            {
+                temp = st.top();
+                if(temp.second == 0)
+                {
+                    st.push({cnt, 0});
+                }
+                else if (temp.first == cnt)
+                {
+                    cout << "NO\n";
+                    return;
+                }
             }
-
-            if(st.size()==1){
-                while(count--) 
-                    st.push('N');
-                continue;
-            }
-
-            if(st.top()=='S'){
-                cout<<"NO\n";
-                return;
-            }
-            // if(!st.size() && st.top()=='S'){
-            //     cout<<"NO\n";
-            //     return;
-            // }  
+            else
+                st.push({cnt, 0});
         }
     }
     cout<<"YES\n";
@@ -66,8 +86,8 @@ void solve(){
 
 int main()
 {
-    // ios_base::sync_with_stdio(false);
-    // cin.tie(NULL);
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
     int t;
     cin >> t;
     while(t--)
