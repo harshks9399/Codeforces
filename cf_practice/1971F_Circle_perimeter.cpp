@@ -4,19 +4,29 @@ using namespace std;
 #define lli long long int
 
 void solve(){
-    int r;
+    lli r;
     cin>>r;
     lli ans = 0;
-    for(int x=1;x<=r;x++){
-        int y = r;
-        float k1,k2;
-        int y1,y2;
-        k1 = sqrt(r*r - x*x);
-        k2 = sqrt(r*r + 1 + 2*r - x*x);
-        y1 = ceil(k1);
-        y2 = floor(k2);
-        if(floor(k2)==ceil(k2)) y2--;
-        ans += y2 - y1 + 1;
+    for(lli x=1;x<=r;x++){
+        // lli a = x*x;
+        // lli n1 = r*r;
+        // lli n2 = (r+1)*(r+1);
+
+        // lli lb = ceil(sqrt(n1 - a));
+        // lli ub = sqrt(n2 - a);
+
+        // if( ub*ub + a == n2  ) ub--;
+
+        // ans += ub - lb + 1;
+        double a = x*x;
+        double n1 = r*r;
+        double n2 = (r+1)*(r+1);
+ 
+        int lb = ceil(sqrt(n1 - a));
+        int ub = sqrt(n2 - a  - 0.1);
+ 
+        ans += ub - lb + 1;
+    
     }
     cout<< 4*ans <<"\n";
 
@@ -31,5 +41,8 @@ int main()
     cin >> t;
     while(t--)
         solve();
+    
+    
+
     return 0;
 }
