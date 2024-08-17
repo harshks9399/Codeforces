@@ -1,0 +1,122 @@
+{
+	
+	"Baisc Starting Snippet": {
+		"prefix": ["cf", "CF"],
+		"body": [
+			"/*",
+			" Author : Harsh Kumar Singh",
+			" created at : $CURRENT_YEAR-$CURRENT_MONTH-$CURRENT_DATE $CURRENT_HOUR:$CURRENT_MINUTE:$CURRENT_SECOND",
+			"*/",
+			"//TEMPLATES : ft, expo, gcd",
+			"#include <bits/stdc++.h>",
+			"using namespace std;",
+			"#define lli long long int",
+			"",
+			"void solve(){",
+			"    ",
+			"}",
+			"",
+			"int main()",
+			"{",
+			"    ios_base::sync_with_stdio(false);",
+			"    cin.tie(NULL);",
+			"    int t;",
+			"    cin >> t;",
+			"    while(t--)",
+			"        solve();",
+			"    return 0;",
+			"}"
+		],
+		"description": "Basic Starting Snippet"
+	},
+	"one test case Snippet": {
+		"prefix": ["1cf", "1CF", "cf1"],
+		"body": [
+			"/*",
+			" Author : Harsh Kumar Singh",
+			" created at : $CURRENT_YEAR-$CURRENT_MONTH-$CURRENT_DATE $CURRENT_HOUR:$CURRENT_MINUTE:$CURRENT_SECOND",
+			"*/",
+			"//TEMPLATES : ft, expo, gcd",
+			"#include <bits/stdc++.h>",
+			"using namespace std;",
+			"#define lli long long int",
+			"",
+			"void solve(){",
+			"    ",
+			"}",
+			"",
+			"int main()",
+			"{",
+			"    ios_base::sync_with_stdio(false);",
+			"    cin.tie(NULL);",
+		"        solve();",
+			"    return 0;",
+			"}"
+		],
+		"description": "Basic Starting Snippet"
+	},
+	"fenwick_tree class": {
+		"prefix": ["fenwick", "fenwick_tree", "FT"],
+		"body": [
+			"class fenwick_tree{",
+			"    int n_;",
+			"    vector<int>v;",
+			"",
+			"    public :",
+			"    fenwick_tree(int n){",
+			"        n_ = n;",
+			"        v = vector<int>(n+1,0);",
+			"    }",
+			"",
+			"    void update (int index, int add){ // adding sum to the given index and the other indices as needed",
+			"        // v[index] += add;",
+			"        for(;index<=n_;  index = index + (index & (-1 * index)))",
+			"            v[index] += add;",
+			"",
+			"        // i = i + (i * -i)",
+			"    }   ",
+			"",
+			"    int sum_1(int index){",
+			"        int ans = 0;",
+			"        for(; index >=1 ; index = index - (index & (-1 * index)))",
+			"            ans += v[index];",
+			"        return ans;",
+			"    }",
+			"    ",
+			"    int sum_2(int left, int right){ // right inclusive , left exclusive",
+			"    if(left == 0) return sum_1(right);",
+			"        int ans = sum_1(right) -  sum_1(left);",
+			"        return ans;",
+			"    }",
+			"",
+			"};"
+		],
+		"description": "Fenwick Tree Class Implementation"
+	},
+	"Exponential_function" : {
+		"prefix": ["expo", "exp"],
+		"body": [
+			"lli expo(lli x, lli y, lli mod = 1e9 + 7){",
+			"    if(x==0) return 0;",
+			"    lli ans = 1;",
+			"    while(y > 0){",
+			"        if(y & 1 == 1) ans = (ans * x) % mod;",
+			"        y = y >> 1;",
+			"        x = (x * x) % mod;", 
+			"    }",
+			"    return ans;",
+			"}"
+		],
+		"description": "Exponentiation Function"
+	},"GCD_function" : {
+		"prefix": ["gcd", "hcf"],
+		"body": [
+			"lli gcd(lli x, lli y){",
+			"    if(y == 0) return x;  // greater number on the left, smaller on the right",
+			"    return gcd(y, x%y);",
+			"}"
+		],
+		"description": "Exponentiation Function"
+	}
+
+}
