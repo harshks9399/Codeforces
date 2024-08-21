@@ -175,6 +175,36 @@
 			"}"
 		],
 		"description": "Simple DSU"
+	},"DSU_adv" : {
+		"prefix": ["DSU_adv", "dsu_adv"],
+		"body": [
+			"const int N = 1e5;",
+			"vector<pair<iint,int>>par(N);",
+			"vector<int>rank_(N);",
+			"",
+			"void make_set(int v){",
+			"    par[v] = make_pair(v,0);",
+			"    rank_[v] = 0;",
+			"}",
+			"",
+			"pair<int,int> find_set(int v){",
+			"    if(v == par[v].first) return par[v];",
+			"    int len = par[v].second",
+			"    par[v] = find_par(par[v].first);",
+			"    par[v].second += len",
+			"    return par[v]",
+			"}",
+			"",
+			"void union_sets(int a, int b){",
+			"    a = find_set(a).first;",
+			"    b = find_set(b).first;",
+			"    if(a==b) return;",
+			"    if(rank_[a] < rank_[b]) swap(a,b);",
+			"    par[b] = make_pair(a,1);",
+			"    if(rank_[a] == rank_[b]) rank_[a]++;",
+			"}"
+		],
+		"description": "Advanced DSU"
 	}
 
 }
