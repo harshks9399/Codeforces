@@ -148,6 +148,33 @@
 			"}"
 		],
 		"description": "To find the pi table for the given string"
+	},"DSU" : {
+		"prefix": ["DSU", "dsu"],
+		"body": [
+			"const int N = 1e5;",
+			"vector<int>par(N);",
+			"vector<int>rank_(N);",
+			"",
+			"void make_set(int v){",
+			"    par[v] = v;",
+			"    rank_[v] = 0;",
+			"}",
+			"",
+			"int find_set(int v){",
+			"    if(v == par[v]) return v;",
+			"    return par[v] = find_set(par[v]);",
+			"}",
+			"",
+			"void union_sets(int a, int b){",
+			"    a = find_set(a);",
+			"    b = find_set(b);",
+			"    if(a==b) return;",
+			"    if(rank_[a] < rank_[b]) swap(a,b);",
+			"    par[b] = a;",
+			"    if(rank_[a] == rank_[b]) rank_[a]++;",
+			"}"
+		],
+		"description": "Simple DSU"
 	}
 
 }
