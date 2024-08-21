@@ -7,7 +7,7 @@
 			" Author : Harsh Kumar Singh",
 			" created at : $CURRENT_YEAR-$CURRENT_MONTH-$CURRENT_DATE $CURRENT_HOUR:$CURRENT_MINUTE:$CURRENT_SECOND",
 			"*/",
-			"//TEMPLATES : ft, expo, gcd",
+			"//TEMPLATES : ft, expo, gcd, seive",
 			"#include <bits/stdc++.h>",
 			"using namespace std;",
 			"#define lli long long int",
@@ -36,7 +36,7 @@
 			" Author : Harsh Kumar Singh",
 			" created at : $CURRENT_YEAR-$CURRENT_MONTH-$CURRENT_DATE $CURRENT_HOUR:$CURRENT_MINUTE:$CURRENT_SECOND",
 			"*/",
-			"//TEMPLATES : ft, expo, gcd",
+			"//TEMPLATES : ft, expo, gcd, seive",
 			"#include <bits/stdc++.h>",
 			"using namespace std;",
 			"#define lli long long int",
@@ -117,6 +117,37 @@
 			"}"
 		],
 		"description": "Exponentiation Function"
+	},"Seive_prime" : {
+		"prefix": ["prime", "Seive"],
+		"body": [
+			"//Need to define the value of N",
+			"vector<bool>prime(N,true);",
+			"lli prime_setup(){",
+			"    prime[0] = prime[1] = false;",
+			"    for(lli i = 2; i*i <= N; i++){",
+			"        if(prime[i])",
+			"            for(lli j = i*i; j <= N; j+=i)",
+			"                prime[j] = false;",
+			"    }",
+			"}"
+		],
+		"description": "To find all the prime numbers before N"
+	},"KMP_string" : {
+		"prefix": ["KMP", "kmp"],
+		"body": [
+			"vector<int> pi_table(string s){",
+			"int n = s.size();",
+			"vector<int> pi(n,0);",
+			"for(int i = 1; i < n; i++){",
+			"    int j = pi[i-1];",
+			"    while(j > 0 && s[i] != s[j]) j = pi[j-1];",
+			"    if(s[i] == s[j]) j++;",
+			"    pi[i] = j;",
+			"}",
+			"return pi;",
+			"}"
+		],
+		"description": "To find the pi table for the given string"
 	}
 
 }
